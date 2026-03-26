@@ -1,0 +1,232 @@
+/* Global utilities if needed */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.btn {
+  padding: 0.75rem 1.5rem;
+  border-radius: var(--radius);
+  font-weight: 600;
+  transition: all 0.2s;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.btn-primary {
+  background-color: var(--accent);
+  color: white;
+}
+
+.btn-primary:hover {
+  background-color: var(--accent-hover);
+}
+
+.btn-outline {
+  background-color: transparent;
+  border: 1px solid var(--border);
+  color: var(--text-secondary);
+}
+
+.btn-outline:hover {
+  border-color: var(--text-primary);
+  color: var(--text-primary);
+}
+
+.app-header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 2rem;
+  border-bottom: 1px solid var(--border);
+  background: rgba(15, 23, 42, 0.8);
+  backdrop-filter: blur(8px);
+}
+
+.app-header__brand {
+  font-weight: 800;
+  letter-spacing: 0.2px;
+}
+
+.app-header__profile {
+  position: relative;
+}
+
+.app-header__profileBtn {
+  background: transparent;
+  padding: 0;
+}
+
+.app-header__dropdown {
+  position: absolute;
+  right: 0;
+  top: calc(100% + 10px);
+  width: 220px;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.35);
+  overflow: hidden;
+}
+
+.app-header__dropdownItem {
+  width: 100%;
+  text-align: left;
+  padding: 0.9rem 1rem;
+  background: transparent;
+  color: var(--text-primary);
+  font-weight: 650;
+}
+
+.app-header__dropdownItem:hover {
+  background: rgba(59, 130, 246, 0.12);
+}
+
+.app-header__dropdownItemDanger:hover {
+  background: rgba(239, 68, 68, 0.12);
+}
+
+.editProfilePage {
+  padding: 2rem;
+}
+
+.editProfileHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.5rem;
+  gap: 1rem;
+}
+
+.editProfileLayout {
+  display: grid;
+  grid-template-columns: 260px 1fr;
+  gap: 1.5rem;
+}
+
+.editProfileSidebar {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  height: fit-content;
+}
+
+.editProfileSidebarBtn {
+  width: 100%;
+  padding: 0.85rem 0.9rem;
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--text-primary);
+  border-radius: calc(var(--radius) - 0.2rem);
+  font-weight: 700;
+}
+
+.editProfileSidebarBtn.active {
+  border-color: rgba(59, 130, 246, 0.8);
+  background: rgba(59, 130, 246, 0.12);
+}
+
+.editProfileSidebarBtn:hover {
+  background: rgba(59, 130, 246, 0.08);
+}
+
+.editProfileContent {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.5rem;
+}
+
+.editProfileForm {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  max-width: 520px;
+}
+
+.formLabel {
+  font-weight: 700;
+  color: var(--text-secondary);
+  margin-top: 0.5rem;
+}
+
+.editProfileForm input {
+  padding: 0.85rem 1rem;
+  border-radius: calc(var(--radius) - 0.2rem);
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--text-primary);
+}
+
+.editProfileForm input:focus {
+  outline: 2px solid rgba(59, 130, 246, 0.35);
+  outline-offset: 2px;
+}
+
+.formMessage {
+  margin-bottom: 1rem;
+  padding: 0.9rem 1rem;
+  border-radius: calc(var(--radius) - 0.2rem);
+  border: 1px solid var(--border);
+  font-weight: 650;
+}
+
+.formMessageError {
+  background: rgba(239, 68, 68, 0.10);
+  color: var(--error);
+  border-color: rgba(239, 68, 68, 0.35);
+}
+
+.formMessageSuccess {
+  background: rgba(34, 197, 94, 0.10);
+  color: var(--success);
+  border-color: rgba(34, 197, 94, 0.35);
+}
+
+.authPage {
+  max-width: 420px;
+  margin: 4rem auto;
+  padding: 2.5rem 2rem;
+  text-align: center;
+}
+
+.authForm {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 0.5rem;
+  align-items: center;
+}
+
+.authPage input {
+  width: 100%;
+  padding: 0.9rem 1rem;
+  border-radius: calc(var(--radius) - 0.2rem);
+  border: 1px solid var(--border);
+  background: rgba(15, 23, 42, 0.9);
+  color: var(--text-primary);
+}
+
+.authPage input::placeholder {
+  color: rgba(148, 163, 184, 0.85);
+}
+
+.authPage input:focus {
+  outline: 2px solid rgba(59, 130, 246, 0.35);
+  outline-offset: 2px;
+}
+
+.authActions {
+  margin-top: 16px;
+  display: flex;
+  justify-content: center;
+}

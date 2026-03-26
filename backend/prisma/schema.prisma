@@ -1,0 +1,62 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id           BigInt   @id @default(autoincrement())
+  email        String   @unique
+  passwordHash String
+  name         String?
+  createdAt    DateTime @default(now())
+  uploads      Upload[]
+}
+
+model Upload {
+  id                   BigInt         @id @default(autoincrement())
+  userId               BigInt
+  fileName             String
+  fileSize             BigInt
+  mimeType             String
+  chunkSize            Int
+  totalChunks          Int
+  uploadedChunks       Int            @default(0)
+  ipHash               String?
+  cloudinaryUploadId   String?
+  cloudinaryPublicId   String?
+  cloudinarySecureUrl  String?
+  status               UploadStatus   @default(UPLOADING)
+  createdAt            DateTime       @default(now())
+  updatedAt            DateTime       @updatedAt
+  user                 User           @relation(fields: [userId], references: [id])
+  chunks               UploadChunk[]
+}
+
+model UploadChunk {
+  id         BigInt      @id @default(autoincrement())
+  uploadId   BigInt
+  chunkIndex Int
+  byteStart  BigInt
+  byteEnd    BigInt
+  status     ChunkStatus @default(PENDING)
+  uploadedAt DateTime?
+  upload     Upload      @relation(fields: [uploadId], references: [id], onDelete: Cascade)
+
+  @@unique([uploadId, chunkIndex])
+}
+
+enum UploadStatus {
+  UPLOADING
+  COMPLETED
+  FAILED
+}
+
+enum ChunkStatus {
+  PENDING
+  UPLOADED
+  FAILED
+}
