@@ -50,6 +50,14 @@ export const ChunkStatus: {
 
 export type ChunkStatus = (typeof ChunkStatus)[keyof typeof ChunkStatus]
 
+
+export const StorageService: {
+  CLOUDINARY: 'CLOUDINARY',
+  AWS: 'AWS'
+};
+
+export type StorageService = (typeof StorageService)[keyof typeof StorageService]
+
 }
 
 export type UploadStatus = $Enums.UploadStatus
@@ -59,6 +67,10 @@ export const UploadStatus: typeof $Enums.UploadStatus
 export type ChunkStatus = $Enums.ChunkStatus
 
 export const ChunkStatus: typeof $Enums.ChunkStatus
+
+export type StorageService = $Enums.StorageService
+
+export const StorageService: typeof $Enums.StorageService
 
 /**
  * ##  Prisma Client ʲˢ
@@ -1165,6 +1177,7 @@ export namespace Prisma {
     email: string | null
     passwordHash: string | null
     name: string | null
+    storageService: string | null
     createdAt: Date | null
   }
 
@@ -1173,6 +1186,7 @@ export namespace Prisma {
     email: string | null
     passwordHash: string | null
     name: string | null
+    storageService: string | null
     createdAt: Date | null
   }
 
@@ -1181,6 +1195,7 @@ export namespace Prisma {
     email: number
     passwordHash: number
     name: number
+    storageService: number
     createdAt: number
     _all: number
   }
@@ -1199,6 +1214,7 @@ export namespace Prisma {
     email?: true
     passwordHash?: true
     name?: true
+    storageService?: true
     createdAt?: true
   }
 
@@ -1207,6 +1223,7 @@ export namespace Prisma {
     email?: true
     passwordHash?: true
     name?: true
+    storageService?: true
     createdAt?: true
   }
 
@@ -1215,6 +1232,7 @@ export namespace Prisma {
     email?: true
     passwordHash?: true
     name?: true
+    storageService?: true
     createdAt?: true
     _all?: true
   }
@@ -1310,6 +1328,7 @@ export namespace Prisma {
     email: string
     passwordHash: string
     name: string | null
+    storageService: string | null
     createdAt: Date
     _count: UserCountAggregateOutputType | null
     _avg: UserAvgAggregateOutputType | null
@@ -1337,6 +1356,7 @@ export namespace Prisma {
     email?: boolean
     passwordHash?: boolean
     name?: boolean
+    storageService?: boolean
     createdAt?: boolean
     uploads?: boolean | User$uploadsArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
@@ -1347,6 +1367,7 @@ export namespace Prisma {
     email?: boolean
     passwordHash?: boolean
     name?: boolean
+    storageService?: boolean
     createdAt?: boolean
   }, ExtArgs["result"]["user"]>
 
@@ -1355,6 +1376,7 @@ export namespace Prisma {
     email?: boolean
     passwordHash?: boolean
     name?: boolean
+    storageService?: boolean
     createdAt?: boolean
   }, ExtArgs["result"]["user"]>
 
@@ -1363,10 +1385,11 @@ export namespace Prisma {
     email?: boolean
     passwordHash?: boolean
     name?: boolean
+    storageService?: boolean
     createdAt?: boolean
   }
 
-  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "email" | "passwordHash" | "name" | "createdAt", ExtArgs["result"]["user"]>
+  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "email" | "passwordHash" | "name" | "storageService" | "createdAt", ExtArgs["result"]["user"]>
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     uploads?: boolean | User$uploadsArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
@@ -1384,6 +1407,7 @@ export namespace Prisma {
       email: string
       passwordHash: string
       name: string | null
+      storageService: string | null
       createdAt: Date
     }, ExtArgs["result"]["user"]>
     composites: {}
@@ -1813,6 +1837,7 @@ export namespace Prisma {
     readonly email: FieldRef<"User", 'String'>
     readonly passwordHash: FieldRef<"User", 'String'>
     readonly name: FieldRef<"User", 'String'>
+    readonly storageService: FieldRef<"User", 'String'>
     readonly createdAt: FieldRef<"User", 'DateTime'>
   }
     
@@ -2289,9 +2314,13 @@ export namespace Prisma {
     totalChunks: number | null
     uploadedChunks: number | null
     ipHash: string | null
+    service: $Enums.StorageService | null
     cloudinaryUploadId: string | null
     cloudinaryPublicId: string | null
     cloudinarySecureUrl: string | null
+    awsUploadId: string | null
+    awsKey: string | null
+    awsUrl: string | null
     status: $Enums.UploadStatus | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -2307,9 +2336,13 @@ export namespace Prisma {
     totalChunks: number | null
     uploadedChunks: number | null
     ipHash: string | null
+    service: $Enums.StorageService | null
     cloudinaryUploadId: string | null
     cloudinaryPublicId: string | null
     cloudinarySecureUrl: string | null
+    awsUploadId: string | null
+    awsKey: string | null
+    awsUrl: string | null
     status: $Enums.UploadStatus | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -2325,9 +2358,13 @@ export namespace Prisma {
     totalChunks: number
     uploadedChunks: number
     ipHash: number
+    service: number
     cloudinaryUploadId: number
     cloudinaryPublicId: number
     cloudinarySecureUrl: number
+    awsUploadId: number
+    awsKey: number
+    awsUrl: number
     status: number
     createdAt: number
     updatedAt: number
@@ -2363,9 +2400,13 @@ export namespace Prisma {
     totalChunks?: true
     uploadedChunks?: true
     ipHash?: true
+    service?: true
     cloudinaryUploadId?: true
     cloudinaryPublicId?: true
     cloudinarySecureUrl?: true
+    awsUploadId?: true
+    awsKey?: true
+    awsUrl?: true
     status?: true
     createdAt?: true
     updatedAt?: true
@@ -2381,9 +2422,13 @@ export namespace Prisma {
     totalChunks?: true
     uploadedChunks?: true
     ipHash?: true
+    service?: true
     cloudinaryUploadId?: true
     cloudinaryPublicId?: true
     cloudinarySecureUrl?: true
+    awsUploadId?: true
+    awsKey?: true
+    awsUrl?: true
     status?: true
     createdAt?: true
     updatedAt?: true
@@ -2399,9 +2444,13 @@ export namespace Prisma {
     totalChunks?: true
     uploadedChunks?: true
     ipHash?: true
+    service?: true
     cloudinaryUploadId?: true
     cloudinaryPublicId?: true
     cloudinarySecureUrl?: true
+    awsUploadId?: true
+    awsKey?: true
+    awsUrl?: true
     status?: true
     createdAt?: true
     updatedAt?: true
@@ -2504,9 +2553,13 @@ export namespace Prisma {
     totalChunks: number
     uploadedChunks: number
     ipHash: string | null
+    service: $Enums.StorageService
     cloudinaryUploadId: string | null
     cloudinaryPublicId: string | null
     cloudinarySecureUrl: string | null
+    awsUploadId: string | null
+    awsKey: string | null
+    awsUrl: string | null
     status: $Enums.UploadStatus
     createdAt: Date
     updatedAt: Date
@@ -2541,9 +2594,13 @@ export namespace Prisma {
     totalChunks?: boolean
     uploadedChunks?: boolean
     ipHash?: boolean
+    service?: boolean
     cloudinaryUploadId?: boolean
     cloudinaryPublicId?: boolean
     cloudinarySecureUrl?: boolean
+    awsUploadId?: boolean
+    awsKey?: boolean
+    awsUrl?: boolean
     status?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -2562,9 +2619,13 @@ export namespace Prisma {
     totalChunks?: boolean
     uploadedChunks?: boolean
     ipHash?: boolean
+    service?: boolean
     cloudinaryUploadId?: boolean
     cloudinaryPublicId?: boolean
     cloudinarySecureUrl?: boolean
+    awsUploadId?: boolean
+    awsKey?: boolean
+    awsUrl?: boolean
     status?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -2581,9 +2642,13 @@ export namespace Prisma {
     totalChunks?: boolean
     uploadedChunks?: boolean
     ipHash?: boolean
+    service?: boolean
     cloudinaryUploadId?: boolean
     cloudinaryPublicId?: boolean
     cloudinarySecureUrl?: boolean
+    awsUploadId?: boolean
+    awsKey?: boolean
+    awsUrl?: boolean
     status?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -2600,15 +2665,19 @@ export namespace Prisma {
     totalChunks?: boolean
     uploadedChunks?: boolean
     ipHash?: boolean
+    service?: boolean
     cloudinaryUploadId?: boolean
     cloudinaryPublicId?: boolean
     cloudinarySecureUrl?: boolean
+    awsUploadId?: boolean
+    awsKey?: boolean
+    awsUrl?: boolean
     status?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type UploadOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "fileName" | "fileSize" | "mimeType" | "chunkSize" | "totalChunks" | "uploadedChunks" | "ipHash" | "cloudinaryUploadId" | "cloudinaryPublicId" | "cloudinarySecureUrl" | "status" | "createdAt" | "updatedAt", ExtArgs["result"]["upload"]>
+  export type UploadOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "fileName" | "fileSize" | "mimeType" | "chunkSize" | "totalChunks" | "uploadedChunks" | "ipHash" | "service" | "cloudinaryUploadId" | "cloudinaryPublicId" | "cloudinarySecureUrl" | "awsUploadId" | "awsKey" | "awsUrl" | "status" | "createdAt" | "updatedAt", ExtArgs["result"]["upload"]>
   export type UploadInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
     chunks?: boolean | Upload$chunksArgs<ExtArgs>
@@ -2637,9 +2706,13 @@ export namespace Prisma {
       totalChunks: number
       uploadedChunks: number
       ipHash: string | null
+      service: $Enums.StorageService
       cloudinaryUploadId: string | null
       cloudinaryPublicId: string | null
       cloudinarySecureUrl: string | null
+      awsUploadId: string | null
+      awsKey: string | null
+      awsUrl: string | null
       status: $Enums.UploadStatus
       createdAt: Date
       updatedAt: Date
@@ -3077,9 +3150,13 @@ export namespace Prisma {
     readonly totalChunks: FieldRef<"Upload", 'Int'>
     readonly uploadedChunks: FieldRef<"Upload", 'Int'>
     readonly ipHash: FieldRef<"Upload", 'String'>
+    readonly service: FieldRef<"Upload", 'StorageService'>
     readonly cloudinaryUploadId: FieldRef<"Upload", 'String'>
     readonly cloudinaryPublicId: FieldRef<"Upload", 'String'>
     readonly cloudinarySecureUrl: FieldRef<"Upload", 'String'>
+    readonly awsUploadId: FieldRef<"Upload", 'String'>
+    readonly awsKey: FieldRef<"Upload", 'String'>
+    readonly awsUrl: FieldRef<"Upload", 'String'>
     readonly status: FieldRef<"Upload", 'UploadStatus'>
     readonly createdAt: FieldRef<"Upload", 'DateTime'>
     readonly updatedAt: FieldRef<"Upload", 'DateTime'>
@@ -4684,6 +4761,7 @@ export namespace Prisma {
     email: 'email',
     passwordHash: 'passwordHash',
     name: 'name',
+    storageService: 'storageService',
     createdAt: 'createdAt'
   };
 
@@ -4700,9 +4778,13 @@ export namespace Prisma {
     totalChunks: 'totalChunks',
     uploadedChunks: 'uploadedChunks',
     ipHash: 'ipHash',
+    service: 'service',
     cloudinaryUploadId: 'cloudinaryUploadId',
     cloudinaryPublicId: 'cloudinaryPublicId',
     cloudinarySecureUrl: 'cloudinarySecureUrl',
+    awsUploadId: 'awsUploadId',
+    awsKey: 'awsKey',
+    awsUrl: 'awsUrl',
     status: 'status',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
@@ -4810,6 +4892,20 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'StorageService'
+   */
+  export type EnumStorageServiceFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'StorageService'>
+    
+
+
+  /**
+   * Reference to a field of type 'StorageService[]'
+   */
+  export type ListEnumStorageServiceFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'StorageService[]'>
+    
+
+
+  /**
    * Reference to a field of type 'UploadStatus'
    */
   export type EnumUploadStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'UploadStatus'>
@@ -4862,6 +4958,7 @@ export namespace Prisma {
     email?: StringFilter<"User"> | string
     passwordHash?: StringFilter<"User"> | string
     name?: StringNullableFilter<"User"> | string | null
+    storageService?: StringNullableFilter<"User"> | string | null
     createdAt?: DateTimeFilter<"User"> | Date | string
     uploads?: UploadListRelationFilter
   }
@@ -4871,6 +4968,7 @@ export namespace Prisma {
     email?: SortOrder
     passwordHash?: SortOrder
     name?: SortOrderInput | SortOrder
+    storageService?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     uploads?: UploadOrderByRelationAggregateInput
   }
@@ -4883,6 +4981,7 @@ export namespace Prisma {
     NOT?: UserWhereInput | UserWhereInput[]
     passwordHash?: StringFilter<"User"> | string
     name?: StringNullableFilter<"User"> | string | null
+    storageService?: StringNullableFilter<"User"> | string | null
     createdAt?: DateTimeFilter<"User"> | Date | string
     uploads?: UploadListRelationFilter
   }, "id" | "email">
@@ -4892,6 +4991,7 @@ export namespace Prisma {
     email?: SortOrder
     passwordHash?: SortOrder
     name?: SortOrderInput | SortOrder
+    storageService?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     _count?: UserCountOrderByAggregateInput
     _avg?: UserAvgOrderByAggregateInput
@@ -4908,6 +5008,7 @@ export namespace Prisma {
     email?: StringWithAggregatesFilter<"User"> | string
     passwordHash?: StringWithAggregatesFilter<"User"> | string
     name?: StringNullableWithAggregatesFilter<"User"> | string | null
+    storageService?: StringNullableWithAggregatesFilter<"User"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
   }
 
@@ -4924,9 +5025,13 @@ export namespace Prisma {
     totalChunks?: IntFilter<"Upload"> | number
     uploadedChunks?: IntFilter<"Upload"> | number
     ipHash?: StringNullableFilter<"Upload"> | string | null
+    service?: EnumStorageServiceFilter<"Upload"> | $Enums.StorageService
     cloudinaryUploadId?: StringNullableFilter<"Upload"> | string | null
     cloudinaryPublicId?: StringNullableFilter<"Upload"> | string | null
     cloudinarySecureUrl?: StringNullableFilter<"Upload"> | string | null
+    awsUploadId?: StringNullableFilter<"Upload"> | string | null
+    awsKey?: StringNullableFilter<"Upload"> | string | null
+    awsUrl?: StringNullableFilter<"Upload"> | string | null
     status?: EnumUploadStatusFilter<"Upload"> | $Enums.UploadStatus
     createdAt?: DateTimeFilter<"Upload"> | Date | string
     updatedAt?: DateTimeFilter<"Upload"> | Date | string
@@ -4944,9 +5049,13 @@ export namespace Prisma {
     totalChunks?: SortOrder
     uploadedChunks?: SortOrder
     ipHash?: SortOrderInput | SortOrder
+    service?: SortOrder
     cloudinaryUploadId?: SortOrderInput | SortOrder
     cloudinaryPublicId?: SortOrderInput | SortOrder
     cloudinarySecureUrl?: SortOrderInput | SortOrder
+    awsUploadId?: SortOrderInput | SortOrder
+    awsKey?: SortOrderInput | SortOrder
+    awsUrl?: SortOrderInput | SortOrder
     status?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -4967,9 +5076,13 @@ export namespace Prisma {
     totalChunks?: IntFilter<"Upload"> | number
     uploadedChunks?: IntFilter<"Upload"> | number
     ipHash?: StringNullableFilter<"Upload"> | string | null
+    service?: EnumStorageServiceFilter<"Upload"> | $Enums.StorageService
     cloudinaryUploadId?: StringNullableFilter<"Upload"> | string | null
     cloudinaryPublicId?: StringNullableFilter<"Upload"> | string | null
     cloudinarySecureUrl?: StringNullableFilter<"Upload"> | string | null
+    awsUploadId?: StringNullableFilter<"Upload"> | string | null
+    awsKey?: StringNullableFilter<"Upload"> | string | null
+    awsUrl?: StringNullableFilter<"Upload"> | string | null
     status?: EnumUploadStatusFilter<"Upload"> | $Enums.UploadStatus
     createdAt?: DateTimeFilter<"Upload"> | Date | string
     updatedAt?: DateTimeFilter<"Upload"> | Date | string
@@ -4987,9 +5100,13 @@ export namespace Prisma {
     totalChunks?: SortOrder
     uploadedChunks?: SortOrder
     ipHash?: SortOrderInput | SortOrder
+    service?: SortOrder
     cloudinaryUploadId?: SortOrderInput | SortOrder
     cloudinaryPublicId?: SortOrderInput | SortOrder
     cloudinarySecureUrl?: SortOrderInput | SortOrder
+    awsUploadId?: SortOrderInput | SortOrder
+    awsKey?: SortOrderInput | SortOrder
+    awsUrl?: SortOrderInput | SortOrder
     status?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -5013,9 +5130,13 @@ export namespace Prisma {
     totalChunks?: IntWithAggregatesFilter<"Upload"> | number
     uploadedChunks?: IntWithAggregatesFilter<"Upload"> | number
     ipHash?: StringNullableWithAggregatesFilter<"Upload"> | string | null
+    service?: EnumStorageServiceWithAggregatesFilter<"Upload"> | $Enums.StorageService
     cloudinaryUploadId?: StringNullableWithAggregatesFilter<"Upload"> | string | null
     cloudinaryPublicId?: StringNullableWithAggregatesFilter<"Upload"> | string | null
     cloudinarySecureUrl?: StringNullableWithAggregatesFilter<"Upload"> | string | null
+    awsUploadId?: StringNullableWithAggregatesFilter<"Upload"> | string | null
+    awsKey?: StringNullableWithAggregatesFilter<"Upload"> | string | null
+    awsUrl?: StringNullableWithAggregatesFilter<"Upload"> | string | null
     status?: EnumUploadStatusWithAggregatesFilter<"Upload"> | $Enums.UploadStatus
     createdAt?: DateTimeWithAggregatesFilter<"Upload"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Upload"> | Date | string
@@ -5094,6 +5215,7 @@ export namespace Prisma {
     email: string
     passwordHash: string
     name?: string | null
+    storageService?: string | null
     createdAt?: Date | string
     uploads?: UploadCreateNestedManyWithoutUserInput
   }
@@ -5103,6 +5225,7 @@ export namespace Prisma {
     email: string
     passwordHash: string
     name?: string | null
+    storageService?: string | null
     createdAt?: Date | string
     uploads?: UploadUncheckedCreateNestedManyWithoutUserInput
   }
@@ -5112,6 +5235,7 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     passwordHash?: StringFieldUpdateOperationsInput | string
     name?: NullableStringFieldUpdateOperationsInput | string | null
+    storageService?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     uploads?: UploadUpdateManyWithoutUserNestedInput
   }
@@ -5121,6 +5245,7 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     passwordHash?: StringFieldUpdateOperationsInput | string
     name?: NullableStringFieldUpdateOperationsInput | string | null
+    storageService?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     uploads?: UploadUncheckedUpdateManyWithoutUserNestedInput
   }
@@ -5130,6 +5255,7 @@ export namespace Prisma {
     email: string
     passwordHash: string
     name?: string | null
+    storageService?: string | null
     createdAt?: Date | string
   }
 
@@ -5138,6 +5264,7 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     passwordHash?: StringFieldUpdateOperationsInput | string
     name?: NullableStringFieldUpdateOperationsInput | string | null
+    storageService?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -5146,6 +5273,7 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     passwordHash?: StringFieldUpdateOperationsInput | string
     name?: NullableStringFieldUpdateOperationsInput | string | null
+    storageService?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -5158,9 +5286,13 @@ export namespace Prisma {
     totalChunks: number
     uploadedChunks?: number
     ipHash?: string | null
+    service?: $Enums.StorageService
     cloudinaryUploadId?: string | null
     cloudinaryPublicId?: string | null
     cloudinarySecureUrl?: string | null
+    awsUploadId?: string | null
+    awsKey?: string | null
+    awsUrl?: string | null
     status?: $Enums.UploadStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -5178,9 +5310,13 @@ export namespace Prisma {
     totalChunks: number
     uploadedChunks?: number
     ipHash?: string | null
+    service?: $Enums.StorageService
     cloudinaryUploadId?: string | null
     cloudinaryPublicId?: string | null
     cloudinarySecureUrl?: string | null
+    awsUploadId?: string | null
+    awsKey?: string | null
+    awsUrl?: string | null
     status?: $Enums.UploadStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -5196,9 +5332,13 @@ export namespace Prisma {
     totalChunks?: IntFieldUpdateOperationsInput | number
     uploadedChunks?: IntFieldUpdateOperationsInput | number
     ipHash?: NullableStringFieldUpdateOperationsInput | string | null
+    service?: EnumStorageServiceFieldUpdateOperationsInput | $Enums.StorageService
     cloudinaryUploadId?: NullableStringFieldUpdateOperationsInput | string | null
     cloudinaryPublicId?: NullableStringFieldUpdateOperationsInput | string | null
     cloudinarySecureUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    awsUploadId?: NullableStringFieldUpdateOperationsInput | string | null
+    awsKey?: NullableStringFieldUpdateOperationsInput | string | null
+    awsUrl?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumUploadStatusFieldUpdateOperationsInput | $Enums.UploadStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -5216,9 +5356,13 @@ export namespace Prisma {
     totalChunks?: IntFieldUpdateOperationsInput | number
     uploadedChunks?: IntFieldUpdateOperationsInput | number
     ipHash?: NullableStringFieldUpdateOperationsInput | string | null
+    service?: EnumStorageServiceFieldUpdateOperationsInput | $Enums.StorageService
     cloudinaryUploadId?: NullableStringFieldUpdateOperationsInput | string | null
     cloudinaryPublicId?: NullableStringFieldUpdateOperationsInput | string | null
     cloudinarySecureUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    awsUploadId?: NullableStringFieldUpdateOperationsInput | string | null
+    awsKey?: NullableStringFieldUpdateOperationsInput | string | null
+    awsUrl?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumUploadStatusFieldUpdateOperationsInput | $Enums.UploadStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -5235,9 +5379,13 @@ export namespace Prisma {
     totalChunks: number
     uploadedChunks?: number
     ipHash?: string | null
+    service?: $Enums.StorageService
     cloudinaryUploadId?: string | null
     cloudinaryPublicId?: string | null
     cloudinarySecureUrl?: string | null
+    awsUploadId?: string | null
+    awsKey?: string | null
+    awsUrl?: string | null
     status?: $Enums.UploadStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -5252,9 +5400,13 @@ export namespace Prisma {
     totalChunks?: IntFieldUpdateOperationsInput | number
     uploadedChunks?: IntFieldUpdateOperationsInput | number
     ipHash?: NullableStringFieldUpdateOperationsInput | string | null
+    service?: EnumStorageServiceFieldUpdateOperationsInput | $Enums.StorageService
     cloudinaryUploadId?: NullableStringFieldUpdateOperationsInput | string | null
     cloudinaryPublicId?: NullableStringFieldUpdateOperationsInput | string | null
     cloudinarySecureUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    awsUploadId?: NullableStringFieldUpdateOperationsInput | string | null
+    awsKey?: NullableStringFieldUpdateOperationsInput | string | null
+    awsUrl?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumUploadStatusFieldUpdateOperationsInput | $Enums.UploadStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -5270,9 +5422,13 @@ export namespace Prisma {
     totalChunks?: IntFieldUpdateOperationsInput | number
     uploadedChunks?: IntFieldUpdateOperationsInput | number
     ipHash?: NullableStringFieldUpdateOperationsInput | string | null
+    service?: EnumStorageServiceFieldUpdateOperationsInput | $Enums.StorageService
     cloudinaryUploadId?: NullableStringFieldUpdateOperationsInput | string | null
     cloudinaryPublicId?: NullableStringFieldUpdateOperationsInput | string | null
     cloudinarySecureUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    awsUploadId?: NullableStringFieldUpdateOperationsInput | string | null
+    awsKey?: NullableStringFieldUpdateOperationsInput | string | null
+    awsUrl?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumUploadStatusFieldUpdateOperationsInput | $Enums.UploadStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -5419,6 +5575,7 @@ export namespace Prisma {
     email?: SortOrder
     passwordHash?: SortOrder
     name?: SortOrder
+    storageService?: SortOrder
     createdAt?: SortOrder
   }
 
@@ -5431,6 +5588,7 @@ export namespace Prisma {
     email?: SortOrder
     passwordHash?: SortOrder
     name?: SortOrder
+    storageService?: SortOrder
     createdAt?: SortOrder
   }
 
@@ -5439,6 +5597,7 @@ export namespace Prisma {
     email?: SortOrder
     passwordHash?: SortOrder
     name?: SortOrder
+    storageService?: SortOrder
     createdAt?: SortOrder
   }
 
@@ -5523,6 +5682,13 @@ export namespace Prisma {
     not?: NestedIntFilter<$PrismaModel> | number
   }
 
+  export type EnumStorageServiceFilter<$PrismaModel = never> = {
+    equals?: $Enums.StorageService | EnumStorageServiceFieldRefInput<$PrismaModel>
+    in?: $Enums.StorageService[] | ListEnumStorageServiceFieldRefInput<$PrismaModel>
+    notIn?: $Enums.StorageService[] | ListEnumStorageServiceFieldRefInput<$PrismaModel>
+    not?: NestedEnumStorageServiceFilter<$PrismaModel> | $Enums.StorageService
+  }
+
   export type EnumUploadStatusFilter<$PrismaModel = never> = {
     equals?: $Enums.UploadStatus | EnumUploadStatusFieldRefInput<$PrismaModel>
     in?: $Enums.UploadStatus[] | ListEnumUploadStatusFieldRefInput<$PrismaModel>
@@ -5555,9 +5721,13 @@ export namespace Prisma {
     totalChunks?: SortOrder
     uploadedChunks?: SortOrder
     ipHash?: SortOrder
+    service?: SortOrder
     cloudinaryUploadId?: SortOrder
     cloudinaryPublicId?: SortOrder
     cloudinarySecureUrl?: SortOrder
+    awsUploadId?: SortOrder
+    awsKey?: SortOrder
+    awsUrl?: SortOrder
     status?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -5582,9 +5752,13 @@ export namespace Prisma {
     totalChunks?: SortOrder
     uploadedChunks?: SortOrder
     ipHash?: SortOrder
+    service?: SortOrder
     cloudinaryUploadId?: SortOrder
     cloudinaryPublicId?: SortOrder
     cloudinarySecureUrl?: SortOrder
+    awsUploadId?: SortOrder
+    awsKey?: SortOrder
+    awsUrl?: SortOrder
     status?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -5600,9 +5774,13 @@ export namespace Prisma {
     totalChunks?: SortOrder
     uploadedChunks?: SortOrder
     ipHash?: SortOrder
+    service?: SortOrder
     cloudinaryUploadId?: SortOrder
     cloudinaryPublicId?: SortOrder
     cloudinarySecureUrl?: SortOrder
+    awsUploadId?: SortOrder
+    awsKey?: SortOrder
+    awsUrl?: SortOrder
     status?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -5631,6 +5809,16 @@ export namespace Prisma {
     _sum?: NestedIntFilter<$PrismaModel>
     _min?: NestedIntFilter<$PrismaModel>
     _max?: NestedIntFilter<$PrismaModel>
+  }
+
+  export type EnumStorageServiceWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.StorageService | EnumStorageServiceFieldRefInput<$PrismaModel>
+    in?: $Enums.StorageService[] | ListEnumStorageServiceFieldRefInput<$PrismaModel>
+    notIn?: $Enums.StorageService[] | ListEnumStorageServiceFieldRefInput<$PrismaModel>
+    not?: NestedEnumStorageServiceWithAggregatesFilter<$PrismaModel> | $Enums.StorageService
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumStorageServiceFilter<$PrismaModel>
+    _max?: NestedEnumStorageServiceFilter<$PrismaModel>
   }
 
   export type EnumUploadStatusWithAggregatesFilter<$PrismaModel = never> = {
@@ -5829,6 +6017,10 @@ export namespace Prisma {
     decrement?: number
     multiply?: number
     divide?: number
+  }
+
+  export type EnumStorageServiceFieldUpdateOperationsInput = {
+    set?: $Enums.StorageService
   }
 
   export type EnumUploadStatusFieldUpdateOperationsInput = {
@@ -6040,6 +6232,13 @@ export namespace Prisma {
     _max?: NestedDateTimeFilter<$PrismaModel>
   }
 
+  export type NestedEnumStorageServiceFilter<$PrismaModel = never> = {
+    equals?: $Enums.StorageService | EnumStorageServiceFieldRefInput<$PrismaModel>
+    in?: $Enums.StorageService[] | ListEnumStorageServiceFieldRefInput<$PrismaModel>
+    notIn?: $Enums.StorageService[] | ListEnumStorageServiceFieldRefInput<$PrismaModel>
+    not?: NestedEnumStorageServiceFilter<$PrismaModel> | $Enums.StorageService
+  }
+
   export type NestedEnumUploadStatusFilter<$PrismaModel = never> = {
     equals?: $Enums.UploadStatus | EnumUploadStatusFieldRefInput<$PrismaModel>
     in?: $Enums.UploadStatus[] | ListEnumUploadStatusFieldRefInput<$PrismaModel>
@@ -6061,6 +6260,16 @@ export namespace Prisma {
     _sum?: NestedIntFilter<$PrismaModel>
     _min?: NestedIntFilter<$PrismaModel>
     _max?: NestedIntFilter<$PrismaModel>
+  }
+
+  export type NestedEnumStorageServiceWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.StorageService | EnumStorageServiceFieldRefInput<$PrismaModel>
+    in?: $Enums.StorageService[] | ListEnumStorageServiceFieldRefInput<$PrismaModel>
+    notIn?: $Enums.StorageService[] | ListEnumStorageServiceFieldRefInput<$PrismaModel>
+    not?: NestedEnumStorageServiceWithAggregatesFilter<$PrismaModel> | $Enums.StorageService
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumStorageServiceFilter<$PrismaModel>
+    _max?: NestedEnumStorageServiceFilter<$PrismaModel>
   }
 
   export type NestedEnumUploadStatusWithAggregatesFilter<$PrismaModel = never> = {
@@ -6124,9 +6333,13 @@ export namespace Prisma {
     totalChunks: number
     uploadedChunks?: number
     ipHash?: string | null
+    service?: $Enums.StorageService
     cloudinaryUploadId?: string | null
     cloudinaryPublicId?: string | null
     cloudinarySecureUrl?: string | null
+    awsUploadId?: string | null
+    awsKey?: string | null
+    awsUrl?: string | null
     status?: $Enums.UploadStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -6142,9 +6355,13 @@ export namespace Prisma {
     totalChunks: number
     uploadedChunks?: number
     ipHash?: string | null
+    service?: $Enums.StorageService
     cloudinaryUploadId?: string | null
     cloudinaryPublicId?: string | null
     cloudinarySecureUrl?: string | null
+    awsUploadId?: string | null
+    awsKey?: string | null
+    awsUrl?: string | null
     status?: $Enums.UploadStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -6190,9 +6407,13 @@ export namespace Prisma {
     totalChunks?: IntFilter<"Upload"> | number
     uploadedChunks?: IntFilter<"Upload"> | number
     ipHash?: StringNullableFilter<"Upload"> | string | null
+    service?: EnumStorageServiceFilter<"Upload"> | $Enums.StorageService
     cloudinaryUploadId?: StringNullableFilter<"Upload"> | string | null
     cloudinaryPublicId?: StringNullableFilter<"Upload"> | string | null
     cloudinarySecureUrl?: StringNullableFilter<"Upload"> | string | null
+    awsUploadId?: StringNullableFilter<"Upload"> | string | null
+    awsKey?: StringNullableFilter<"Upload"> | string | null
+    awsUrl?: StringNullableFilter<"Upload"> | string | null
     status?: EnumUploadStatusFilter<"Upload"> | $Enums.UploadStatus
     createdAt?: DateTimeFilter<"Upload"> | Date | string
     updatedAt?: DateTimeFilter<"Upload"> | Date | string
@@ -6203,6 +6424,7 @@ export namespace Prisma {
     email: string
     passwordHash: string
     name?: string | null
+    storageService?: string | null
     createdAt?: Date | string
   }
 
@@ -6211,6 +6433,7 @@ export namespace Prisma {
     email: string
     passwordHash: string
     name?: string | null
+    storageService?: string | null
     createdAt?: Date | string
   }
 
@@ -6263,6 +6486,7 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     passwordHash?: StringFieldUpdateOperationsInput | string
     name?: NullableStringFieldUpdateOperationsInput | string | null
+    storageService?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -6271,6 +6495,7 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     passwordHash?: StringFieldUpdateOperationsInput | string
     name?: NullableStringFieldUpdateOperationsInput | string | null
+    storageService?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -6312,9 +6537,13 @@ export namespace Prisma {
     totalChunks: number
     uploadedChunks?: number
     ipHash?: string | null
+    service?: $Enums.StorageService
     cloudinaryUploadId?: string | null
     cloudinaryPublicId?: string | null
     cloudinarySecureUrl?: string | null
+    awsUploadId?: string | null
+    awsKey?: string | null
+    awsUrl?: string | null
     status?: $Enums.UploadStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -6331,9 +6560,13 @@ export namespace Prisma {
     totalChunks: number
     uploadedChunks?: number
     ipHash?: string | null
+    service?: $Enums.StorageService
     cloudinaryUploadId?: string | null
     cloudinaryPublicId?: string | null
     cloudinarySecureUrl?: string | null
+    awsUploadId?: string | null
+    awsKey?: string | null
+    awsUrl?: string | null
     status?: $Enums.UploadStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -6364,9 +6597,13 @@ export namespace Prisma {
     totalChunks?: IntFieldUpdateOperationsInput | number
     uploadedChunks?: IntFieldUpdateOperationsInput | number
     ipHash?: NullableStringFieldUpdateOperationsInput | string | null
+    service?: EnumStorageServiceFieldUpdateOperationsInput | $Enums.StorageService
     cloudinaryUploadId?: NullableStringFieldUpdateOperationsInput | string | null
     cloudinaryPublicId?: NullableStringFieldUpdateOperationsInput | string | null
     cloudinarySecureUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    awsUploadId?: NullableStringFieldUpdateOperationsInput | string | null
+    awsKey?: NullableStringFieldUpdateOperationsInput | string | null
+    awsUrl?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumUploadStatusFieldUpdateOperationsInput | $Enums.UploadStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -6383,9 +6620,13 @@ export namespace Prisma {
     totalChunks?: IntFieldUpdateOperationsInput | number
     uploadedChunks?: IntFieldUpdateOperationsInput | number
     ipHash?: NullableStringFieldUpdateOperationsInput | string | null
+    service?: EnumStorageServiceFieldUpdateOperationsInput | $Enums.StorageService
     cloudinaryUploadId?: NullableStringFieldUpdateOperationsInput | string | null
     cloudinaryPublicId?: NullableStringFieldUpdateOperationsInput | string | null
     cloudinarySecureUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    awsUploadId?: NullableStringFieldUpdateOperationsInput | string | null
+    awsKey?: NullableStringFieldUpdateOperationsInput | string | null
+    awsUrl?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumUploadStatusFieldUpdateOperationsInput | $Enums.UploadStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -6400,9 +6641,13 @@ export namespace Prisma {
     totalChunks: number
     uploadedChunks?: number
     ipHash?: string | null
+    service?: $Enums.StorageService
     cloudinaryUploadId?: string | null
     cloudinaryPublicId?: string | null
     cloudinarySecureUrl?: string | null
+    awsUploadId?: string | null
+    awsKey?: string | null
+    awsUrl?: string | null
     status?: $Enums.UploadStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -6417,9 +6662,13 @@ export namespace Prisma {
     totalChunks?: IntFieldUpdateOperationsInput | number
     uploadedChunks?: IntFieldUpdateOperationsInput | number
     ipHash?: NullableStringFieldUpdateOperationsInput | string | null
+    service?: EnumStorageServiceFieldUpdateOperationsInput | $Enums.StorageService
     cloudinaryUploadId?: NullableStringFieldUpdateOperationsInput | string | null
     cloudinaryPublicId?: NullableStringFieldUpdateOperationsInput | string | null
     cloudinarySecureUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    awsUploadId?: NullableStringFieldUpdateOperationsInput | string | null
+    awsKey?: NullableStringFieldUpdateOperationsInput | string | null
+    awsUrl?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumUploadStatusFieldUpdateOperationsInput | $Enums.UploadStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -6435,9 +6684,13 @@ export namespace Prisma {
     totalChunks?: IntFieldUpdateOperationsInput | number
     uploadedChunks?: IntFieldUpdateOperationsInput | number
     ipHash?: NullableStringFieldUpdateOperationsInput | string | null
+    service?: EnumStorageServiceFieldUpdateOperationsInput | $Enums.StorageService
     cloudinaryUploadId?: NullableStringFieldUpdateOperationsInput | string | null
     cloudinaryPublicId?: NullableStringFieldUpdateOperationsInput | string | null
     cloudinarySecureUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    awsUploadId?: NullableStringFieldUpdateOperationsInput | string | null
+    awsKey?: NullableStringFieldUpdateOperationsInput | string | null
+    awsUrl?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumUploadStatusFieldUpdateOperationsInput | $Enums.UploadStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -6453,9 +6706,13 @@ export namespace Prisma {
     totalChunks?: IntFieldUpdateOperationsInput | number
     uploadedChunks?: IntFieldUpdateOperationsInput | number
     ipHash?: NullableStringFieldUpdateOperationsInput | string | null
+    service?: EnumStorageServiceFieldUpdateOperationsInput | $Enums.StorageService
     cloudinaryUploadId?: NullableStringFieldUpdateOperationsInput | string | null
     cloudinaryPublicId?: NullableStringFieldUpdateOperationsInput | string | null
     cloudinarySecureUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    awsUploadId?: NullableStringFieldUpdateOperationsInput | string | null
+    awsKey?: NullableStringFieldUpdateOperationsInput | string | null
+    awsUrl?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumUploadStatusFieldUpdateOperationsInput | $Enums.UploadStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string

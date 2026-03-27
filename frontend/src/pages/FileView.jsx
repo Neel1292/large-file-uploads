@@ -24,7 +24,8 @@ const FileView = () => {
         size: (file.bytes / 1024 / 1024).toFixed(2) + ' MB',
         type: file.format,
         url: file.secure_url,
-        date: new Date(file.created_at).toLocaleDateString()
+        date: new Date(file.created_at).toLocaleDateString(),
+        service: file.service || 'CLOUDINARY'
       }));
       setFiles(mappedFiles);
     } catch (error) {
@@ -147,6 +148,7 @@ const FileView = () => {
                 
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: '0.875rem', color: 'var(--text-secondary)' }}>
                   <span>{file.size}</span>
+                  <span style={{ fontSize: '0.7rem', padding: '2px 6px', borderRadius: '4px', backgroundColor: file.service === 'AWS' ? '#ff9900' : '#3448c5', color: 'white', fontWeight: 'bold' }}>{file.service}</span>
                   <span>{file.date}</span>
                 </div>
               </div>

@@ -39,7 +39,7 @@ const signup = asyncHandler(async (req, res) => {
 
   return res.json({
     success: true,
-    user: { id: user.id.toString(), email: user.email },
+    user: { id: user.id.toString(), email: user.email, storageService: 'CLOUDINARY' },
   });
 });
 
@@ -67,7 +67,7 @@ const login = asyncHandler(async (req, res) => {
 
   return res.json({
     success: true,
-    user: { id: userRow.id.toString(), email: userRow.email },
+    user: { id: userRow.id.toString(), email: userRow.email, storageService: userRow.storageService },
   });
 });
 
@@ -96,19 +96,20 @@ const logout = asyncHandler(async (req, res) => {
 });
 
 const me = asyncHandler(async (req, res) => {
+  console.log("Inside the controller");
   const userId = req.user?.id;
   if (!userId) return res.status(401).json({ success: false, message: 'Unauthorized' });
 
   const user = await prisma.user.findUnique({
     where: { id: BigInt(userId) },
-    select: { id: true, email: true, createdAt: true },
+    select: { id: true, email: true, createdAt: true, storageService: true },
   });
 
+  console.log("User found", user);  
   if (!user) return res.status(404).json({ success: false, message: 'User not found' });
-
   return res.json({
     success: true,
-    user: { id: user.id.toString(), email: user.email, createdAt: user.createdAt },
+    user: { id: user.id.toString(), email: user.email, createdAt: user.createdAt, storageService: user.storageService },
   });
 });
 
@@ -168,6 +169,26 @@ const updatePassword = asyncHandler(async (req, res) => {
   return res.json({ success: true });
 });
 
+const updateService = asyncHandler(async (req, res) => {
+  const userId = BigInt(req.user.id);
+  const storageService = req.body?.storageService;
+
+  if (!['CLOUDINARY', 'AWS'].includes(storageService)) {
+    return res.status(400).json({ success: false, message: 'Invalid storage service' });
+  }
+
+  const updated = await prisma.user.updateMany({
+    where: { id: userId },
+    data: { storageService },
+  });
+
+  if (updated.count === 0) {
+    return res.status(404).json({ success: false, message: 'User not found' });
+  }
+
+  return res.json({ success: true, storageService });
+});
+
 export {
   signup,
   login,
@@ -176,5 +197,6 @@ export {
   me,
   updateName,
   updatePassword,
+  updateService,
 };
 

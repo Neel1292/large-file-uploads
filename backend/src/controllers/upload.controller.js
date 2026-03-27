@@ -4,6 +4,16 @@ import { asyncHandler } from "../utils/helper.js";
 import { prisma } from "../../prisma.js";
 import crypto from 'crypto';
 import { v4 as uuidv4 } from 'uuid';
+import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
+import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
+
+const s3Client = new S3Client({
+  region: process.env.AWS_REGION || 'us-east-1',
+  credentials: {
+    accessKeyId: process.env.AWS_ACCESS_KEY_ID || 'dummy',
+    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY || 'dummy',
+  }
+});
 
 const initiateUpload  = asyncHandler(async (req, res) => {
   const { fileName, fileSize, mimeType, chunkSize } = req.body;
@@ -165,11 +175,22 @@ const completeUpload = async (req, res) => {
   const userId = BigInt(req.user.id);
   const uploadIdBigInt = BigInt(uploadId);
 
+  const uploadRow = await prisma.upload.findFirst({
+    where: { id: uploadIdBigInt, userId },
+    select: { service: true }
+  });
+
+  if (!uploadRow) {
+    return res.status(404).json({ success: false, message: 'Upload not found' });
+  }
+
   const updated = await prisma.upload.updateMany({
     where: { id: uploadIdBigInt, userId },
     data: {
-      cloudinaryPublicId: publicId,
-      cloudinarySecureUrl: secureUrl,
+      ...(uploadRow.service === 'AWS' 
+        ? { awsKey: publicId, awsUrl: secureUrl }
+        : { cloudinaryPublicId: publicId, cloudinarySecureUrl: secureUrl }
+      ),
       status: "COMPLETED",
     },
   });
@@ -205,6 +226,51 @@ const markUploadFailed = async (req, res) => {
 };
 
 const getUploadSignature = asyncHandler(async (req, res) => {
+  const userId = BigInt(req.user.id);
+  const user = await prisma.user.findUnique({ where: { id: userId }, select: { storageService: true } });
+  const service = user?.storageService || 'CLOUDINARY';
+
+  if (service === 'AWS') {
+    const { fileName, fileType } = req.body;
+    const bucketName = process.env.AWS_BUCKET_NAME || 'my-bucket';
+    const s3Key = `uploads/${uuidv4()}-${fileName}`;
+    
+    // To simplify for 1-chunk smaller uploads conceptually, or we can just provide a presigned URL that the frontend can generic PUT to.
+    const command = new PutObjectCommand({
+      Bucket: bucketName,
+      Key: s3Key,
+      ContentType: fileType,
+    });
+    const presignedUrl = await getSignedUrl(s3Client, command, { expiresIn: 3600 });
+    
+    // Create DB record for AWS upload
+    const fileSize = req.body.fileSize || 0;
+    const ipHash = crypto.createHash('md5').update(req.ip || '127.0.0.1').digest('hex');
+    const upload = await prisma.upload.create({
+      data: {
+        userId,
+        fileName,
+        fileSize: BigInt(fileSize),
+        mimeType: fileType || 'application/octet-stream',
+        chunkSize: fileSize,
+        totalChunks: 1,
+        ipHash,
+        service: 'AWS',
+        awsKey: s3Key,
+        awsUrl: `https://${bucketName}.s3.${process.env.AWS_REGION || 'us-east-1'}.amazonaws.com/${s3Key}`,
+        status: "UPLOADING"
+      }
+    });
+
+    return res.json({
+      service: 'AWS',
+      uploadId: upload.id.toString(),
+      uploadUrl: presignedUrl,
+      publicId: s3Key,
+      secureUrl: `https://${bucketName}.s3.${process.env.AWS_REGION || 'us-east-1'}.amazonaws.com/${s3Key}`
+    });
+  }
+
   const timestamp = Math.floor(Date.now() / 1000);
 
   const signature = await getApiSignture(timestamp, CLOUDINARY.API_SECRET);

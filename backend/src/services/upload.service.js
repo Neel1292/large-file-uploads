@@ -17,8 +17,16 @@ async function getAllUploadedFilesForUser(userId) {
     where: {
       userId: BigInt(userId),
       status: 'COMPLETED',
-      cloudinarySecureUrl: { not: null },
-      cloudinaryPublicId: { not: null },
+      OR: [
+        {
+          cloudinarySecureUrl: { not: null },
+          cloudinaryPublicId: { not: null },
+        },
+        {
+          awsUrl: { not: null },
+          awsKey: { not: null },
+        }
+      ]
     },
     orderBy: { createdAt: 'desc' },
     take: 50,
@@ -28,13 +36,16 @@ async function getAllUploadedFilesForUser(userId) {
   // (Cloudinary-like keys: public_id, filename, bytes, format, secure_url, created_at)
   return uploads.map((u) => {
     const format = u.mimeType?.split('/')[1] || '';
+    const isAws = u.service === 'AWS';
+    
     return {
-      public_id: u.cloudinaryPublicId,
+      public_id: isAws ? u.awsKey : u.cloudinaryPublicId,
       filename: u.fileName,
       bytes: Number(u.fileSize),
       format,
-      secure_url: u.cloudinarySecureUrl,
+      secure_url: isAws ? u.awsUrl : u.cloudinarySecureUrl,
       created_at: u.createdAt.toISOString(),
+      service: u.service || 'CLOUDINARY', // Include service information just in case
     };
   });
 }

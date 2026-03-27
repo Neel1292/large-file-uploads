@@ -27,8 +27,8 @@ const FileUpload = () => {
   };
 
   const handleFileUpload = async (file) => {
-    if (file.size > 10485760) {
-      alert("File size too large. Maximum is 10 MB.");
+    if (file.size > 1 * 1024 * 1024 * 1024) {
+      alert("File size too large. Maximum is 1 GB.");
       return;
     }
     const id = Math.random().toString(36).substr(2, 9);

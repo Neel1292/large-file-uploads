@@ -24,6 +24,29 @@ const createChunks = (file) => {
 export async function uploadFileInChunks(file, cloudConfig, onProgress) {
     let uploadId = null;
     try {
+        if (cloudConfig.service === 'AWS') {
+            await axios.put(cloudConfig.uploadUrl, file, {
+                headers: { 'Content-Type': file.type },
+                onUploadProgress: (event) => {
+                    if (onProgress) {
+                        onProgress(Math.min(100, Math.round((event.loaded / file.size) * 100)));
+                    }
+                }
+            });
+
+            // For AWS, we skip chunked db tracks and return URLs immediately
+            // But we still need to mark it as complete in DB!
+            await apiClient.post(getURL(UPLOAD.COMPLETE, cloudConfig.uploadId), {
+                publicId: cloudConfig.publicId,
+                secureUrl: cloudConfig.secureUrl,
+            });
+
+            return {
+                public_id: cloudConfig.publicId,
+                secure_url: cloudConfig.secureUrl
+            };
+        }
+
         const initRes = await apiClient.post(UPLOAD.INITIATE, {
             fileName: file.name,
             fileSize: file.size,

@@ -8,31 +8,36 @@ datasource db {
 }
 
 model User {
-  id           BigInt   @id @default(autoincrement())
-  email        String   @unique
-  passwordHash String
-  name         String?
-  createdAt    DateTime @default(now())
-  uploads      Upload[]
+  id             BigInt   @id @default(autoincrement())
+  email          String   @unique
+  passwordHash   String
+  name           String?
+  storageService String?  @default("CLOUDINARY") @db.VarChar(50)
+  createdAt      DateTime @default(now())
+  uploads        Upload[]
 }
 
 model Upload {
-  id                  BigInt        @id @default(autoincrement())
+  id                  BigInt         @id @default(autoincrement())
   userId              BigInt
   fileName            String
   fileSize            BigInt
   mimeType            String
   chunkSize           Int
   totalChunks         Int
-  uploadedChunks      Int           @default(0)
+  uploadedChunks      Int            @default(0)
   ipHash              String?
+  service             StorageService @default(CLOUDINARY)
   cloudinaryUploadId  String?
   cloudinaryPublicId  String?
   cloudinarySecureUrl String?
-  status              UploadStatus  @default(UPLOADING)
-  createdAt           DateTime      @default(now())
-  updatedAt           DateTime      @updatedAt
-  user                User          @relation(fields: [userId], references: [id])
+  awsUploadId         String?
+  awsKey              String?
+  awsUrl              String?
+  status              UploadStatus   @default(UPLOADING)
+  createdAt           DateTime       @default(now())
+  updatedAt           DateTime       @updatedAt
+  user                User           @relation(fields: [userId], references: [id])
   chunks              UploadChunk[]
 }
 
@@ -59,4 +64,9 @@ enum ChunkStatus {
   PENDING
   UPLOADED
   FAILED
+}
+
+enum StorageService {
+  CLOUDINARY
+  AWS
 }

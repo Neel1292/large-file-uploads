@@ -17,6 +17,7 @@ export function requireAuth(req, res, next) {
     const payload = jwt.verify(token, getAccessSecret());
     // payload.sub is userId
     req.user = { id: payload.sub };
+    console.log("Passes the authentication", req.user)
     return next();
   } catch (err) {
     return res.status(401).json({ success: false, message: 'Unauthorized' });

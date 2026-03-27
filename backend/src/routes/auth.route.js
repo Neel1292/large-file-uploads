@@ -1,7 +1,7 @@
 import express from 'express';
 import { authUploadControlLimiter, strictAuthLimiter } from '../middleware/rateLimiters.js';
 import { requireAuth } from '../middleware/requireAuth.js';
-import { login, logout, me, refresh, signup, updateName, updatePassword } from '../controllers/auth.controller.js';
+import { login, logout, me, refresh, signup, updateName, updatePassword, updateService } from '../controllers/auth.controller.js';
 
 const router = express.Router();
 
@@ -16,6 +16,7 @@ router.get('/me', requireAuth, me);
 
 router.post('/update-name', requireAuth, authUploadControlLimiter, updateName);
 router.post('/update-password', requireAuth, authUploadControlLimiter, updatePassword);
+router.post('/update-service', requireAuth, authUploadControlLimiter, updateService);
 
 export { router as authRouter };
 

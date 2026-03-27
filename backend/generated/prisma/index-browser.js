@@ -125,6 +125,7 @@ exports.Prisma.UserScalarFieldEnum = {
   email: 'email',
   passwordHash: 'passwordHash',
   name: 'name',
+  storageService: 'storageService',
   createdAt: 'createdAt'
 };
 
@@ -138,9 +139,13 @@ exports.Prisma.UploadScalarFieldEnum = {
   totalChunks: 'totalChunks',
   uploadedChunks: 'uploadedChunks',
   ipHash: 'ipHash',
+  service: 'service',
   cloudinaryUploadId: 'cloudinaryUploadId',
   cloudinaryPublicId: 'cloudinaryPublicId',
   cloudinarySecureUrl: 'cloudinarySecureUrl',
+  awsUploadId: 'awsUploadId',
+  awsKey: 'awsKey',
+  awsUrl: 'awsUrl',
   status: 'status',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
@@ -170,6 +175,11 @@ exports.Prisma.NullsOrder = {
   first: 'first',
   last: 'last'
 };
+exports.StorageService = exports.$Enums.StorageService = {
+  CLOUDINARY: 'CLOUDINARY',
+  AWS: 'AWS'
+};
+
 exports.UploadStatus = exports.$Enums.UploadStatus = {
   UPLOADING: 'UPLOADING',
   COMPLETED: 'COMPLETED',

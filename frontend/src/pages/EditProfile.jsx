@@ -9,11 +9,12 @@ export default function EditProfile() {
   const { user, loading } = useAuth();
   const navigate = useNavigate();
 
-  const [tab, setTab] = useState('name'); // 'name' | 'password'
+  const [tab, setTab] = useState('name'); // 'name' | 'password' | 'settings'
   const [name, setName] = useState('');
   const [oldPassword, setOldPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [storageService, setStorageService] = useState(user?.storageService || 'CLOUDINARY');
 
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
@@ -68,6 +69,21 @@ export default function EditProfile() {
     }
   };
 
+  const submitStorageService = async (e) => {
+    e.preventDefault();
+    setError('');
+    setSuccess('');
+
+    try {
+      await apiClient.post('/auth/update-service', { storageService });
+      setSuccess('Storage service updated successfully.');
+      // Optional: Update the user in context if needed
+      user.storageService = storageService;
+    } catch (err) {
+      setError(err?.response?.data?.message || 'Failed to update storage service.');
+    }
+  };
+
   if (loading) return null;
   if (!user) return null;
 
@@ -106,6 +122,17 @@ export default function EditProfile() {
             }}
           >
             Update Password
+          </button>
+          <button
+            type="button"
+            className={`editProfileSidebarBtn ${tab === 'settings' ? 'active' : ''}`}
+            onClick={() => {
+              setTab('settings');
+              setError('');
+              setSuccess('');
+            }}
+          >
+            Settings
           </button>
         </div>
 
@@ -164,6 +191,29 @@ export default function EditProfile() {
                 type="submit"
               >
                 Save Password
+              </Button>
+            </form>
+          )}
+
+          {tab === 'settings' && (
+            <form onSubmit={submitStorageService} className="editProfileForm">
+              <label className="formLabel">Storage Service</label>
+              <select
+                value={storageService}
+                onChange={(e) => setStorageService(e.target.value)}
+                style={{ padding: '10px', borderRadius: '4px', border: '1px solid var(--border)', background: 'var(--bg-secondary)', color: 'var(--text-primary)', marginBottom: '1rem' }}
+              >
+                <option value="CLOUDINARY">Cloudinary</option>
+                <option value="AWS">AWS S3</option>
+              </select>
+
+              <Button
+                variant="primary"
+                bgColor="var(--accent)"
+                textColor="#fff"
+                type="submit"
+              >
+                Save Settings
               </Button>
             </form>
           )}
