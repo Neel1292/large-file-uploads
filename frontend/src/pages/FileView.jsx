@@ -129,6 +129,22 @@ const FileView = () => {
                   background: 'linear-gradient(to top, rgba(0,0,0,0.8), transparent)',
                   opacity: 0.6
                 }} />
+                
+                <span style={{
+                  position: 'absolute',
+                  top: '8px',
+                  right: '8px',
+                  fontSize: '0.7rem',
+                  padding: '3px 8px',
+                  borderRadius: '4px',
+                  backgroundColor: file.service === 'AWS' ? '#ff9900' : '#3448c5',
+                  color: 'white',
+                  fontWeight: 'bold',
+                  zIndex: 2,
+                  boxShadow: '0 2px 4px rgba(0,0,0,0.2)'
+                }}>
+                  {file.service}
+                </span>
               </div>
               
               <div style={{ padding: '1rem' }}>
